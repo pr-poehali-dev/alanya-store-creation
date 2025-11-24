@@ -112,7 +112,7 @@ const Index = () => {
     <div className="min-h-screen bg-[#f8f4ef] text-slate-900">
       <header className="sticky top-0 z-20 border-b border-black/5 bg-[#f8f4ef]/80 backdrop-blur">
         <div className="mx-auto flex w-full max-w-6xl items-center justify-between px-4 py-4">
-          <a href="#hero" className="text-2xl font-semibold tracking-tight">
+          <a href="#hero" className="text-2xl font-semibold tracking-tight md:mr-12">
             Alanya Store
           </a>
           <nav className="hidden gap-6 text-sm font-medium md:flex">
