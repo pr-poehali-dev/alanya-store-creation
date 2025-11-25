@@ -19,26 +19,56 @@ const navLinks = [
 
 const catalogSections = [
   {
-    title: "Мужская коллекция",
-    description: "Льняные рубашки, жилеты из шерсти и брюки из органического хлопка для повседневных образов.",
-    tags: ["Льняные рубашки", "Вязаные свитеры", "Жилет ручной работы", "Брюки из пеньки"],
-    image:
-      "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/b0dded1d-0f40-4907-a5e3-fb7d6bd395c3.jpg",
+    title: "Майки для танцев",
+    description: "Яркие майки с уникальными принтами: геометрия, тропики и этника для свободы движений.",
+    tags: ["Геометрический принт", "Тропический принт", "Этнический узор"],
+    items: [
+      {
+        name: "Майка с геометрическим принтом",
+        price: "2 500 ₽",
+        image: "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/a5d08a0a-b4f9-44c5-978a-bcf8321d6ce1.jpg"
+      },
+      {
+        name: "Майка с тропическим принтом",
+        price: "2 400 ₽",
+        image: "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/12d57148-f1ff-4c68-bb6b-35af2ab6c677.jpg"
+      },
+      {
+        name: "Майка с этническим узором",
+        price: "2 600 ₽",
+        image: "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/0ae82bd5-803b-44f3-848a-90f4c5ae0527.jpg"
+      }
+    ]
   },
   {
-    title: "Женская коллекция",
-    description: "Платья-кейпы, струящиеся юбки и жакеты с ручной вышивкой для особенных дней и будней.",
-    tags: ["Льняные платья", "Юбки миди", "Жакеты", "Топы с вышивкой"],
-    image:
-      "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/b0dded1d-0f40-4907-a5e3-fb7d6bd395c3.jpg",
+    title: "Танцевальные штаны",
+    description: "Свободные штаны различных фасонов: шаровары и палаццо для комфорта и стиля.",
+    tags: ["Шаровары", "Палаццо", "Свободный крой"],
+    items: [
+      {
+        name: "Шаровары с резинкой",
+        price: "3 200 ₽",
+        image: "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/0d938e74-77be-4de0-8704-d6e0cf8fbd49.jpg"
+      },
+      {
+        name: "Штаны палаццо",
+        price: "3 500 ₽",
+        image: "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/a77ce2e7-bb32-4be4-9c0c-d7d1ae17942f.jpg"
+      }
+    ]
   },
   {
-    title: "Аксессуары",
-    description: "Плетёные сумки, кожаные ремни и текстильные украшения завершают образ с теплом рук мастера.",
-    tags: ["Плетёные сумки", "Льняные шарфы", "Кожаные ремни", "Украшения"],
-    image:
-      "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/8dfba831-aaef-4718-b01e-a34e73dec516.jpg",
-  },
+    title: "Танцевальные пояса",
+    description: "Декоративные пояса с монетами и кисточками для эффектных выступлений.",
+    tags: ["С монетами", "С кисточками", "Яркие цвета"],
+    items: [
+      {
+        name: "Пояс с монетами и кисточками",
+        price: "1 800 ₽",
+        image: "https://cdn.poehali.dev/projects/70fe6f9c-8231-428b-8399-dc0b53874b78/files/df927229-163e-4974-a59a-c6c42bbc1496.jpg"
+      }
+    ]
+  }
 ];
 
 const subCategories = [
@@ -203,10 +233,22 @@ const Index = () => {
                   <CardDescription>{section.description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  <div className="overflow-hidden rounded-2xl">
-                    <img src={section.image} alt={section.title} className="h-52 w-full object-cover" />
+                  <div className="space-y-3">
+                    {section.items.map((item) => (
+                      <div key={item.name} className="group cursor-pointer overflow-hidden rounded-xl border border-black/5 bg-white transition-shadow hover:shadow-md">
+                        <div className="flex gap-3 p-3">
+                          <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg">
+                            <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" />
+                          </div>
+                          <div className="flex flex-1 flex-col justify-between">
+                            <p className="text-sm font-medium text-slate-900">{item.name}</p>
+                            <p className="text-base font-semibold text-amber-700">{item.price}</p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                   </div>
-                  <div className="flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2 pt-2">
                     {section.tags.map((tag) => (
                       <span key={tag} className="rounded-full bg-stone-100 px-3 py-1 text-xs font-medium">
                         {tag}
