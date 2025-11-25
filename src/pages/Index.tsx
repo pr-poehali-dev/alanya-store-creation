@@ -10,6 +10,8 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import OrderModal from "@/components/OrderModal";
+import CartModal from "@/components/CartModal";
+import { useCart } from "@/contexts/CartContext";
 
 const navLinks = [
   { label: "Главное", href: "#hero" },
@@ -140,12 +142,18 @@ const contactInfo = [
 ];
 
 const Index = () => {
+  const { addItem, totalItems } = useCart();
   const [selectedItem, setSelectedItem] = useState<{name: string; price: string; image: string} | null>(null);
   const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+  const [isCartModalOpen, setIsCartModalOpen] = useState(false);
 
   const handleOrderClick = (item: {name: string; price: string; image: string}) => {
     setSelectedItem(item);
     setIsOrderModalOpen(true);
+  };
+
+  const handleAddToCart = (item: {name: string; price: string; image: string}) => {
+    addItem(item);
   };
 
   return (
@@ -155,14 +163,29 @@ const Index = () => {
           <a href="#hero" className="text-2xl font-semibold tracking-tight md:mr-12">
             Alanya Store
           </a>
-          <nav className="hidden gap-6 text-sm font-medium md:flex">
+          <nav className="flex items-center gap-4">
+            <div className="hidden gap-6 text-sm font-medium md:flex">
             {navLinks.map((link) => (
               <a key={link.href} href={link.href} className="transition hover:text-amber-700">
                 {link.label}
               </a>
             ))}
+            </div>
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="relative"
+              onClick={() => setIsCartModalOpen(true)}
+            >
+              <Icon name="ShoppingCart" size={20} />
+              {totalItems > 0 && (
+                <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-amber-700 text-xs font-semibold text-white">
+                  {totalItems}
+                </span>
+              )}
+            </Button>
           </nav>
-          <div className="flex flex-1 items-center justify-end gap-3">
+          <div className="hidden flex-1 items-center justify-end gap-3">
             <div className="hidden max-w-xs flex-1 md:flex">
               <Input placeholder="Поиск по сайту" className="bg-white/80" />
             </div>
@@ -260,14 +283,15 @@ const Index = () => {
                               <p className="text-base font-semibold text-amber-700">{item.price}</p>
                               <Button 
                                 size="sm" 
+                                variant="outline"
                                 className="gap-1"
                                 onClick={(e) => {
                                   e.stopPropagation();
-                                  handleOrderClick(item);
+                                  handleAddToCart(item);
                                 }}
                               >
                                 <Icon name="ShoppingCart" size={14} />
-                                Заказать
+                                В корзину
                               </Button>
                             </div>
                           </div>
@@ -403,6 +427,10 @@ const Index = () => {
         isOpen={isOrderModalOpen} 
         onClose={() => setIsOrderModalOpen(false)} 
         item={selectedItem}
+      />
+      <CartModal 
+        isOpen={isCartModalOpen} 
+        onClose={() => setIsCartModalOpen(false)} 
       />
 
       <footer className="border-t border-black/5 bg-white/70">
