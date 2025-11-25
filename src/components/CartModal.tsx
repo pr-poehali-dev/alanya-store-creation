@@ -170,7 +170,7 @@ export default function CartModal({ isOpen, onClose }: CartModalProps) {
 
               <div className="space-y-2">
                 <label htmlFor="email" className="text-sm font-medium">
-                  Email
+                  Email (необязательно)
                 </label>
                 <Input
                   id="email"
