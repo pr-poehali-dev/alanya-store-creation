@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -8,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import OrderModal from "@/components/OrderModal";
 
 const navLinks = [
   { label: "Главное", href: "#hero" },
@@ -138,6 +140,14 @@ const contactInfo = [
 ];
 
 const Index = () => {
+  const [selectedItem, setSelectedItem] = useState<{name: string; price: string; image: string} | null>(null);
+  const [isOrderModalOpen, setIsOrderModalOpen] = useState(false);
+
+  const handleOrderClick = (item: {name: string; price: string; image: string}) => {
+    setSelectedItem(item);
+    setIsOrderModalOpen(true);
+  };
+
   return (
     <div className="min-h-screen bg-[#f8f4ef] text-slate-900">
       <header className="sticky top-0 z-20 border-b border-black/5 bg-[#f8f4ef]/80 backdrop-blur">
@@ -235,14 +245,31 @@ const Index = () => {
                 <CardContent className="space-y-4">
                   <div className="space-y-3">
                     {section.items.map((item) => (
-                      <div key={item.name} className="group cursor-pointer overflow-hidden rounded-xl border border-black/5 bg-white transition-shadow hover:shadow-md">
+                      <div 
+                        key={item.name} 
+                        className="group cursor-pointer overflow-hidden rounded-xl border border-black/5 bg-white transition-shadow hover:shadow-md"
+                        onClick={() => handleOrderClick(item)}
+                      >
                         <div className="flex gap-3 p-3">
                           <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg">
                             <img src={item.image} alt={item.name} className="h-full w-full object-cover transition-transform group-hover:scale-105" />
                           </div>
                           <div className="flex flex-1 flex-col justify-between">
                             <p className="text-sm font-medium text-slate-900">{item.name}</p>
-                            <p className="text-base font-semibold text-amber-700">{item.price}</p>
+                            <div className="flex items-center justify-between">
+                              <p className="text-base font-semibold text-amber-700">{item.price}</p>
+                              <Button 
+                                size="sm" 
+                                className="gap-1"
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  handleOrderClick(item);
+                                }}
+                              >
+                                <Icon name="ShoppingCart" size={14} />
+                                Заказать
+                              </Button>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -371,6 +398,12 @@ const Index = () => {
           </div>
         </section>
       </main>
+
+      <OrderModal 
+        isOpen={isOrderModalOpen} 
+        onClose={() => setIsOrderModalOpen(false)} 
+        item={selectedItem}
+      />
 
       <footer className="border-t border-black/5 bg-white/70">
         <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-6 text-sm text-slate-600 md:flex-row md:items-center md:justify-between">

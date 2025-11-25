@@ -1,0 +1,33 @@
+{
+  "tests": [
+    {
+      "name": "Send order to Telegram",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Иван Петров",
+        "phone": "+7 999 123-45-67",
+        "email": "ivan@example.com",
+        "items": [
+          {
+            "name": "Майка с геометрическим принтом",
+            "price": "2 500 ₽"
+          }
+        ],
+        "total": "2 500 ₽",
+        "comment": "Доставка после 18:00"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Handle OPTIONS request",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}
